@@ -13,4 +13,4 @@ reading: reading.c
 	gcc -shared -o reading.so reading.o
 
 clean:
-	rm -f nlcnt mapping.o mapping.so reading.o reading.so
+	rm -f nlcnt nlcnt.o mapping.o mapping.so reading.o reading.so
