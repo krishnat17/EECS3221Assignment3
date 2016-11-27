@@ -20,18 +20,21 @@ void my_cnt(char* fileName) {
   struct stat mystat;
   char *map;
 
+  //Open file descriptor
   fd = open(fileName, O_RDONLY);
   if (fd == -1)  {
     fprintf(stderr, "mapping.so - Couldn't open %s \n", fileName);
     exit(1);
   }
 
+  //Get file stats, mainly for file size
   if(fstat(fd,&mystat) < 0) {
     fprintf(stderr, "mapping.so - fstat error\n");
     close(fd);
     exit(1);
   }
 
+  //Map file into array
   map = mmap((caddr_t)0, mystat.st_size, PROT_READ, MAP_SHARED, fd, 0);
   if (map == MAP_FAILED) {
     fprintf(stderr, "mapping.so - mmap error\n");
@@ -39,6 +42,7 @@ void my_cnt(char* fileName) {
     exit(1);
   }
 
+  //Read array until end of file
   while (i < mystat.st_size) {
     if (map[i] == '\n' ) {
       count++;
@@ -48,6 +52,4 @@ void my_cnt(char* fileName) {
 
   printf("There are %d newline character(s) in file %s \n", count, fileName);
   close(fd);
-
-
 }
